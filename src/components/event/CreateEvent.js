@@ -38,19 +38,34 @@ const CreateEvent = () => {
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
+  // Add to existing state declarations
+const [imagePreview, setImagePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
-  const handleImageChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setEventData({ ...eventData, image: file });
-      setImagePreview(URL.createObjectURL(file));
+  // Add/update handleImageChange function
+const handleImageChange = (event) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImagePreview(reader.result);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+// Add cleanup in useEffect
+useEffect(() => {
+  return () => {
+    if (imagePreview) {
+      URL.revokeObjectURL(imagePreview);
     }
   };
+}, [imagePreview]);
 
 
 //updated for organiser
