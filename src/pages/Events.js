@@ -138,6 +138,14 @@ function Events() {
     navigate('/events/create');
   };
 
+
+  //updated  cloud img
+  const processImageUrl = (imageUrl) => {
+    return imageUrl?.startsWith('http') 
+      ? imageUrl 
+      : `${process.env.REACT_APP_API_URL}/uploads/${imageUrl}`;
+  };
+
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({ ...prev, open: false }));
   };
@@ -177,7 +185,10 @@ function Events() {
           {events.map((event) => (
             <Grid item xs={12} sm={6} md={4} key={event._id}>
               <EventCard
-                event={event}
+                 event={{
+                  ...event,
+                  image: processImageUrl(event.image)
+                }}
                 onRegister={() => handleRegisterForEvent(event._id)}
                 onSave={() => handleSaveEvent(event._id)}
                 onView={() => navigate(`/events/${event._id}`)}

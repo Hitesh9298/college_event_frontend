@@ -45,7 +45,11 @@ const CreateEvent = () => {
   };
 
   const handleImageChange = (e) => {
-    setEventData({ ...eventData, image: e.target.files[0] });
+    const file = e.target.files[0];
+    if (file) {
+      setEventData({ ...eventData, image: file });
+      setImagePreview(URL.createObjectURL(file));
+    }
   };
 
 
@@ -264,6 +268,15 @@ const CreateEvent = () => {
                   Upload Event Image
                 </Button>
               </label>
+              {imagePreview && (
+      <Box mt={2}>
+        <img 
+          src={imagePreview} 
+          alt="Preview" 
+          style={{ maxWidth: '100%', maxHeight: '200px' }} 
+        />
+      </Box>
+       )}
             </Grid>
           </Grid>
           <Box sx={{ mt: 3 }}>

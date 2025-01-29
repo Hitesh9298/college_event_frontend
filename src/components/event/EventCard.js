@@ -16,15 +16,10 @@ import BookmarkBorderIcon from '@mui/icons-material/BookmarkBorder';
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DeleteIcon from '@mui/icons-material/Delete';
 
-const EventCard = ({ 
-  event, 
-  onSave, 
-  onView, 
-  isSaved = false,
-  showRegisterButton = true,
-  isCreator = false,
-  onDelete
-}) => {
+const EventCard = ({ event, onSave, onView, isSaved = false, showRegisterButton = true, isCreator = false, onDelete }) => {
+  const imageUrl = event.image?.startsWith('http') 
+    ? event.image 
+    : `${process.env.REACT_APP_API_URL}/uploads/${event.image}`;
   return (
     <Card sx={{ 
       height: '100%',
@@ -36,10 +31,10 @@ const EventCard = ({
         boxShadow: '0 8px 16px rgba(0,0,0,0.1)'
       }
     }}>
-      <CardMedia
+        <CardMedia
         component="img"
         height="160"
-        image={event.image || 'https://via.placeholder.com/400x200'}
+        image={imageUrl || 'https://via.placeholder.com/400x200'}
         alt={event.title}
         sx={{ objectFit: 'cover' }}
       />

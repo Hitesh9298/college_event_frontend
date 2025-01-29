@@ -24,6 +24,10 @@ const EventDetail = () => {
 		message: '',
 		severity: 'success'
 	});
+//updated for image
+	const imageUrl = event?.image?.startsWith('http') 
+    ? event.image 
+    : `${process.env.REACT_APP_API_URL}/uploads/${event.image}`;
 
 	useEffect(() => {
 		fetchEventDetails();
@@ -111,7 +115,7 @@ const EventDetail = () => {
 				<Box sx={{ position: 'relative' }}>
 					<Box
 						component="img"
-						src={event.image || 'https://via.placeholder.com/1200x400'}
+						src={imageUrl || 'https://via.placeholder.com/1200x400'}
 						alt={event.title}
 						sx={{
 							width: '100%',
