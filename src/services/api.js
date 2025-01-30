@@ -2,7 +2,6 @@ import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://clgevent-back.onrender.com/api';
 
-
 // Configure axios with auth token
 const api = axios.create({
   baseURL: API_URL
@@ -14,14 +13,14 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-  
+
   // Don't set Content-Type for FormData
   if (config.data instanceof FormData) {
     config.headers['Content-Type'] = 'multipart/form-data';
   } else {
     config.headers['Content-Type'] = 'application/json';
   }
-  
+
   return config;
 }, (error) => {
   return Promise.reject(error);
@@ -36,11 +35,7 @@ api.interceptors.response.use(
   }
 );
 
-
 // Profile-related API endpoints
-// Update the getUserProfile function to use the correct endpoint and api instance
-// Update the profile-related API endpoints to use the correct path
-// Update the profile-related API endpoints to use the correct path and api instance
 export const getUserProfile = async () => {
   try {
     const response = await api.get('/auth/profile');
@@ -59,7 +54,7 @@ export const updateUserProfile = async (userData) => {
         formData.append(key, userData[key]);
       }
     });
-    
+
     const response = await api.put('/auth/profile', formData);
     return response.data;
   } catch (error) {
@@ -68,13 +63,15 @@ export const updateUserProfile = async (userData) => {
   }
 };
 
-
-
 export const changePassword = async (passwordData) => {
-  const response = await api.put('/user/password', passwordData);
-  return response.data;
+  try {
+    const response = await api.put('/user/password', passwordData);
+    return response.data;
+  } catch (error) {
+    console.error('Error changing password:', error);
+    throw error;
+  }
 };
-
 
 export const getEvents = async (filters = {}) => {
   try {
@@ -87,16 +84,17 @@ export const getEvents = async (filters = {}) => {
     const response = await api.get(`/events?${queryParams.toString()}`);
     return response.data;
   } catch (error) {
+    console.error('Error fetching events:', error);
     throw error;
   }
 };
 
-// ... rest of the API functions
+// ✅ FIXED `createEvent` function (No JSON.stringify for FormData)
 export const createEvent = async (formData) => {
   try {
-    const response = await api.post('/events', JSON.stringify(formData), {
+    const response = await api.post('/events', formData, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data', // Axios auto-sets this
       },
     });
     return response.data;
@@ -115,7 +113,6 @@ export const deleteEvent = async (eventId) => {
     throw error;
   }
 };
-
 
 export const registerForEvent = async (eventId) => {
   try {
@@ -146,7 +143,6 @@ export const saveEvent = async (eventId) => {
     throw error;
   }
 };
-
 
 export const getEventById = async (eventId) => {
   try {

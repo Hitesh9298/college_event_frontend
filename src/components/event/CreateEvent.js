@@ -130,28 +130,41 @@ const CreateEvent = () => {
   
       // Ensure all fields are correctly populated
       const formData = new FormData();
-      formData.append("title", eventData.title);
-      formData.append("description", eventData.description);
-      formData.append("date", eventData.date);
-      formData.append("time", eventData.time);
-      formData.append("location", eventData.location);
-      formData.append("category", eventData.category);
-      formData.append("organizerName", eventData.organizerName);
-      formData.append("organizerDescription", eventData.organizerDescription);
-      formData.append("maxParticipants", eventData.maxParticipants);
+      formData.append("title", eventData.title || "");
+      formData.append("description", eventData.description || "");
+      formData.append("date", eventData.date || "");
+      formData.append("time", eventData.time || "");
+      formData.append("location", eventData.location || "");
+      formData.append("category", eventData.category || "");
+      formData.append("organizerName", eventData.organizerName || "");
+      formData.append("organizerDescription", eventData.organizerDescription || "");
       
+      // Ensure maxParticipants is a valid number, defaulting to 0 if not provided
+      formData.append("maxParticipants", eventData.maxParticipants ? String(eventData.maxParticipants) : "0");
       // Append image URL if uploaded
       if (imageUrl) {
         formData.append("image", imageUrl);
       }
   
       // Convert schedule array into JSON string before sending
-      formData.append("schedule", JSON.stringify(eventData.schedule));
+      formData.append("schedule", JSON.stringify(eventData.schedule || []));
   
       console.log("Final FormData before sending:", Object.fromEntries(formData));
+          // Log FormData properly
+    console.log("Final FormData before sending:");
+    formData.forEach((value, key) => {
+      console.log(key, value);
+    })
   
       // Send form data
-      const response = await createEvent(formData);
+    
+       // Send form data
+    const response = await api.post('/events', formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+
       
       console.log("Event created successfully:", response);
   
