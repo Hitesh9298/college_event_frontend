@@ -99,9 +99,12 @@ export const createEvent = async (formData) => {
     return response.data;
   } catch (error) {
     console.error('Error creating event:', error.response?.data);
-    throw error.response?.data || {
-      message: 'Failed to create event',
-      errors: [{ msg: 'Network error or server unavailable' }]
+    if (error.response?.data) {
+      throw error.response.data;
+    }
+    throw {
+      message: 'Network error or server unavailable',
+      errors: [{ msg: 'Could not connect to server' }]
     };
   }
 };

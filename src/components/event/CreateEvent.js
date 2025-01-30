@@ -127,17 +127,17 @@ const CreateEvent = () => {
         imageUrl = await uploadImage(eventData.image);
       }
   
-      // Create FormData with proper field names matching backend
+      // Create FormData with correct field names
       const formData = new FormData();
-      formData.append("title", eventData.title.trim());
-      formData.append("description", eventData.description.trim());
+      formData.append("title", eventData.title);
+      formData.append("description", eventData.description);
       formData.append("date", eventData.date);
       formData.append("time", eventData.time);
-      formData.append("location", eventData.location.trim()); // Changed from location to venue
+      formData.append("venue", eventData.location); // Changed from location to venue
       formData.append("category", eventData.category);
-      formData.append("maxParticipants", eventData.maxParticipants || "100");
-      formData.append("organizerName", eventData.organizerName.trim());
-      formData.append("organizerDescription", eventData.organizerDescription.trim());
+      formData.append("maxParticipants", eventData.maxParticipants);
+      formData.append("organizerName", eventData.organizerName);
+      formData.append("organizerDescription", eventData.organizerDescription);
       
       if (imageUrl) {
         formData.append("image", imageUrl);
@@ -147,13 +147,17 @@ const CreateEvent = () => {
       const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
       formData.append("schedule", JSON.stringify(validSchedule));
   
+      // Debug log
+      for (let [key, value] of formData.entries()) {
+        console.log(`${key}: ${value}`);
+      }
+  
       const response = await createEvent(formData);
       setSnackbarMessage("Event created successfully!");
       setOpenSnackbar(true);
       setTimeout(() => navigate("/events"), 2000);
     } catch (error) {
       console.error("Error creating event:", error);
-      // Handle validation errors
       const errorMessage = error.errors ? 
         error.errors.map(err => err.msg).join(', ') : 
         error.message || "Failed to create event. Please try again.";
@@ -161,7 +165,6 @@ const CreateEvent = () => {
       setOpenSnackbar(true);
     }
   };
-  
   return (
     <Container maxWidth="md">
       <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
