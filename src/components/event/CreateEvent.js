@@ -32,25 +32,23 @@ const CreateEvent = () => {
     image: null,
     maxParticipants: '',
     organizerName: '',
-  organizerDescription: '',
-  schedule: [{ time: '', activity: '' }]
+    organizerDescription: '',
+    schedule: [{ time: '', activity: '' }]
   });
 
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
-  // Add to existing state declarations
-const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setEventData({ ...eventData, [name]: value });
   };
 
-  // Add/update handleImageChange function
   const handleImageChange = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setEventData({ ...eventData, image: file }); // Update eventData.image
+      setEventData({ ...eventData, image: file });
       const reader = new FileReader();
       reader.onloadend = () => {
         setImagePreview(reader.result);
@@ -58,17 +56,15 @@ const [imagePreview, setImagePreview] = useState(null);
       reader.readAsDataURL(file);
     }
   };
-// Add cleanup in useEffect
-useEffect(() => {
-  return () => {
-    if (imagePreview) {
-      URL.revokeObjectURL(imagePreview);
-    }
-  };
-}, [imagePreview]);
 
+  useEffect(() => {
+    return () => {
+      if (imagePreview) {
+        URL.revokeObjectURL(imagePreview);
+      }
+    };
+  }, [imagePreview]);
 
-//updated for organiser
   const handleScheduleChange = (index, field, value) => {
     const newSchedule = [...eventData.schedule];
     newSchedule[index][field] = value;
@@ -86,7 +82,6 @@ useEffect(() => {
     const newSchedule = eventData.schedule.filter((_, i) => i !== index);
     setEventData({ ...eventData, schedule: newSchedule });
   };
-
 
   const uploadImage = async (file) => {
     if (!file) {
@@ -107,23 +102,20 @@ useEffect(() => {
         }
       );
 
-const result = await response.json();
+      const result = await response.json();
       console.log(result);  // Check for errors or success message
   
       if (!response.ok) {
         throw new Error("Failed to upload image");
       }
   
-      const data = await response.json();
-      return data.secure_url; // Return the Cloudinary image URL
+      return result.secure_url; // Return the Cloudinary image URL
     } catch (error) {
       console.error("Cloudinary Upload Error:", error);
       throw new Error("Image upload failed");
     }
   };
   
-
- 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -147,7 +139,7 @@ const result = await response.json();
   
       // Add Cloudinary image URL to formData
       if (imageUrl) {
-        formData.append("imageUrl", imageUrl);
+        formData.append("image", imageUrl);
       }
   
       await createEvent(formData);
@@ -163,8 +155,6 @@ const result = await response.json();
       setOpenSnackbar(true);
     }
   };
-  
-
 
   return (
     <Container maxWidth="md">
@@ -259,53 +249,53 @@ const result = await response.json();
                 onChange={handleChange}
               />
             </Grid>
-<Grid item xs={12}>
-  <TextField
-    fullWidth
-    label="Organizer Name"
-    name="organizerName"
-    required
-    value={eventData.organizerName}
-    onChange={handleChange}
-  />
-</Grid>
-<Grid item xs={12}>
-  <TextField
-    fullWidth
-    label="Organizer Description"
-    name="organizerDescription"
-    multiline
-    rows={2}
-    value={eventData.organizerDescription}
-    onChange={handleChange}
-  />
-</Grid>
-<Grid item xs={12}>
-  <Typography variant="h6" gutterBottom>
-    Event Schedule
-  </Typography>
-  {eventData.schedule.map((item, index) => (
-    <Box key={index} sx={{ display: 'flex', gap: 2, mb: 2 }}>
-      <TextField
-        label="Time"
-        value={item.time}
-        onChange={(e) => handleScheduleChange(index, 'time', e.target.value)}
-      />
-      <TextField
-        label="Activity"
-        fullWidth
-        value={item.activity}
-        onChange={(e) => handleScheduleChange(index, 'activity', e.target.value)}
-      />
-      <IconButton onClick={() => removeScheduleItem(index)} color="error">
-        <DeleteIcon />
-      </IconButton>
-    </Box>
-  ))}
-  <Button onClick={addScheduleItem} startIcon={<AddIcon />}>
-    Add Schedule Item
-  </Button>
-</Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Organizer Name"
+                name="organizerName"
+                required
+                value={eventData.organizerName}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                fullWidth
+                label="Organizer Description"
+                name="organizerDescription"
+                multiline
+                rows={2}
+                value={eventData.organizerDescription}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h6" gutterBottom>
+                Event Schedule
+              </Typography>
+              {eventData.schedule.map((item, index) => (
+                <Box key={index} sx={{ display: 'flex', gap: 2, mb: 2 }}>
+                  <TextField
+                    label="Time"
+                    value={item.time}
+                    onChange={(e) => handleScheduleChange(index, 'time', e.target.value)}
+                  />
+                  <TextField
+                    label="Activity"
+                    fullWidth
+                    value={item.activity}
+                    onChange={(e) => handleScheduleChange(index, 'activity', e.target.value)}
+                  />
+                  <IconButton onClick={() => removeScheduleItem(index)} color="error">
+                    <DeleteIcon />
+                  </IconButton>
+                </Box>
+              ))}
+              <Button onClick={addScheduleItem} startIcon={<AddIcon />}>
+                Add Schedule Item
+              </Button>
+            </Grid>
             <Grid item xs={12}>
               <input
                 accept="image/*"
@@ -320,14 +310,14 @@ const result = await response.json();
                 </Button>
               </label>
               {imagePreview && (
-      <Box mt={2}>
-        <img 
-          src={imagePreview} 
-          alt="Preview" 
-          style={{ maxWidth: '100%', maxHeight: '200px' }} 
-        />
-      </Box>
-       )}
+                <Box mt={2}>
+                  <img 
+                    src={imagePreview} 
+                    alt="Preview" 
+                    style={{ maxWidth: '100%', maxHeight: '200px' }} 
+                  />
+                </Box>
+              )}
             </Grid>
           </Grid>
           <Box sx={{ mt: 3 }}>
