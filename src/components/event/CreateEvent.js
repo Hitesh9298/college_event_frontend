@@ -103,13 +103,12 @@ const CreateEvent = () => {
       );
 
       const result = await response.json();
-      console.log(result);  // Check for errors or success message
-  
+
       if (!response.ok) {
         throw new Error("Failed to upload image");
       }
   
-      return result.secure_url; // Return the Cloudinary image URL
+      return result.secure_url;  // Return the Cloudinary image URL
     } catch (error) {
       console.error("Cloudinary Upload Error:", error);
       throw new Error("Image upload failed");
@@ -121,14 +120,12 @@ const CreateEvent = () => {
     try {
       let imageUrl = null;
   
-      // Upload image to Cloudinary if selected
       if (eventData.image) {
         imageUrl = await uploadImage(eventData.image);
       }
   
       const formData = new FormData();
       
-      // Add all fields to formData
       Object.keys(eventData).forEach((key) => {
         if (key === "schedule") {
           formData.append("schedule", JSON.stringify(eventData.schedule));
@@ -137,9 +134,8 @@ const CreateEvent = () => {
         }
       });
   
-      // Add Cloudinary image URL to formData
       if (imageUrl) {
-        formData.append("image", imageUrl);
+        formData.append("image", imageUrl);  // Correctly add the image URL
       }
   
       await createEvent(formData);
@@ -155,7 +151,6 @@ const CreateEvent = () => {
       setOpenSnackbar(true);
     }
   };
-
   return (
     <Container maxWidth="md">
       <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
