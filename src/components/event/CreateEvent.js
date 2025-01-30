@@ -85,35 +85,38 @@ const CreateEvent = () => {
 
   const uploadImage = async (file) => {
     if (!file) {
-      throw new Error("No file selected");
+      console.error("No file selected for upload");
+      return null;
     }
   
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "Event_set");  // Your upload preset
-    formData.append("folder", "events/images");  // Custom folder path
+    formData.append("upload_preset", "Event_set");
+    formData.append("folder", "events/images");
   
     try {
       const response = await fetch(
-        "https://api.cloudinary.com/v1_1/dqgedj6q4/image/upload", 
-        { 
+        "https://api.cloudinary.com/v1_1/dqgedj6q4/image/upload",
+        {
           method: "POST",
           body: formData,
         }
       );
-
+  
       const result = await response.json();
-
+  
       if (!response.ok) {
-        throw new Error("Failed to upload image");
+        throw new Error(`Failed to upload image: ${result.error?.message}`);
       }
   
-      return result.secure_url;  // Return the Cloudinary image URL
+      console.log("Uploaded Image URL:", result.secure_url); // Debugging line
+      return result.secure_url;
     } catch (error) {
       console.error("Cloudinary Upload Error:", error);
-      throw new Error("Image upload failed");
+      return null;
     }
   };
+  
   
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -123,6 +126,8 @@ const CreateEvent = () => {
       if (eventData.image) {
         imageUrl = await uploadImage(eventData.image);
       }
+  
+      console.log("Final Image URL before sending:", imageUrl); // Debugging log
   
       const formData = new FormData();
       
@@ -135,8 +140,10 @@ const CreateEvent = () => {
       });
   
       if (imageUrl) {
-        formData.append("image", imageUrl);  // Correctly add the image URL
+        formData.append("image", imageUrl);  // Ensure image URL is added
       }
+  
+      console.log("Form Data before sending:", formData.get("image")); // Debugging log
   
       await createEvent(formData);
       setSnackbarMessage("Event created successfully!");
@@ -151,6 +158,8 @@ const CreateEvent = () => {
       setOpenSnackbar(true);
     }
   };
+  
+  
   return (
     <Container maxWidth="md">
       <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
