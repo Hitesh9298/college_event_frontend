@@ -95,7 +95,8 @@ useEffect(() => {
   
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("upload_preset", "your_upload_preset"); // Replace with actual Cloudinary preset
+    formData.append("upload_preset", "Event_set");  // Your upload preset
+    formData.append("folder", "events/images");  // Custom folder path
   
     try {
       const response = await fetch(
