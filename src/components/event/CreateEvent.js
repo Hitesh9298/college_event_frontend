@@ -47,17 +47,17 @@ const [imagePreview, setImagePreview] = useState(null);
   };
 
   // Add/update handleImageChange function
-const handleImageChange = (event) => {
-  const file = event.target.files[0];
-  if (file) {
-    const reader = new FileReader();
-    reader.onloadend = () => {
-      setImagePreview(reader.result);
-    };
-    reader.readAsDataURL(file);
-  }
-};
-
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      setEventData({ ...eventData, image: file }); // Update eventData.image
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 // Add cleanup in useEffect
 useEffect(() => {
   return () => {
@@ -87,47 +87,79 @@ useEffect(() => {
     setEventData({ ...eventData, schedule: newSchedule });
   };
 
+
+  const uploadImage = async (file) => {
+    if (!file) {
+      throw new Error("No file selected");
+    }
+  
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "your_upload_preset"); // Replace with actual Cloudinary preset
+  
+    try {
+      const response = await fetch(
+        "https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_NAME/image/upload", 
+        { 
+          method: "POST",
+          body: formData,
+        }
+      );
+  
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+  
+      const data = await response.json();
+      return data.secure_url; // Return the Cloudinary image URL
+    } catch (error) {
+      console.error("Cloudinary Upload Error:", error);
+      throw new Error("Image upload failed");
+    }
+  };
+  
+
  
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      let imageUrl = null;
+  
+      // Upload image to Cloudinary if selected
+      if (eventData.image) {
+        imageUrl = await uploadImage(eventData.image);
+      }
+  
       const formData = new FormData();
       
-      // Add all text fields to formData
-      Object.keys(eventData).forEach(key => {
-        if (key === 'schedule') {
-          // Convert schedule array to JSON string
-          formData.append('schedule', JSON.stringify(eventData.schedule));
-        } else if (key !== 'image') {
+      // Add all fields to formData
+      Object.keys(eventData).forEach((key) => {
+        if (key === "schedule") {
+          formData.append("schedule", JSON.stringify(eventData.schedule));
+        } else if (key !== "image") {
           formData.append(key, eventData[key]);
         }
       });
   
-      // Add image if it exists
-      if (eventData.image) {
-        formData.append('image', eventData.image);
-      }
-  
-      // Get user ID from localStorage
-      const userId = JSON.parse(localStorage.getItem('user'))?._id;
-      if (userId) {
-        formData.append('creator', userId);
+      // Add Cloudinary image URL to formData
+      if (imageUrl) {
+        formData.append("imageUrl", imageUrl);
       }
   
       await createEvent(formData);
-      setSnackbarMessage('Event created successfully!');
+      setSnackbarMessage("Event created successfully!");
       setOpenSnackbar(true);
   
       setTimeout(() => {
-        navigate('/events');
+        navigate("/events");
       }, 2000);
-  
     } catch (error) {
-      console.error('Error in handleSubmit:', error);
-      setSnackbarMessage(error.response?.data?.message || 'Failed to create event. Please try again.');
+      console.error("Error in handleSubmit:", error);
+      setSnackbarMessage(error.response?.data?.message || "Failed to create event. Please try again.");
       setOpenSnackbar(true);
     }
   };
+  
 
 
   return (

@@ -141,10 +141,11 @@ function Events() {
 
   //updated  cloud img
   const processImageUrl = (imageUrl) => {
-    return imageUrl?.startsWith('http') 
-      ? imageUrl 
-      : `${process.env.REACT_APP_API_URL}/uploads/${imageUrl}`;
+    return imageUrl?.startsWith("http")
+      ? imageUrl
+      : "https://via.placeholder.com/400x200"; // Fallback image
   };
+  
 
   const handleCloseSnackbar = () => {
     setSnackbar(prev => ({ ...prev, open: false }));

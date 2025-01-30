@@ -18,8 +18,9 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 const EventCard = ({ event, onSave, onView, isSaved = false, showRegisterButton = true, isCreator = false, onDelete }) => {
   const imageUrl = event.image?.startsWith('http') 
-    ? event.image 
-    : `${process.env.REACT_APP_API_URL}/uploads/${event.image}`;
+  ? event.image 
+  : `https://res.cloudinary.com/YOUR_CLOUDINARY_NAME/image/upload/v1680000000/${event.image}`;
+
   return (
     <Card sx={{ 
       height: '100%',

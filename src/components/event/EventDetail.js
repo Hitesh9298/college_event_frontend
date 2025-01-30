@@ -25,9 +25,10 @@ const EventDetail = () => {
 		severity: 'success'
 	});
 //updated for image
-	const imageUrl = event?.image?.startsWith('http') 
-    ? event.image 
-    : `${process.env.REACT_APP_API_URL}/uploads/${event.image}`;
+const imageUrl = event?.image?.startsWith('http') 
+? event.image 
+: `https://res.cloudinary.com/YOUR_CLOUDINARY_NAME/image/upload/v1680000000/${event.image}`;
+
 
 	useEffect(() => {
 		fetchEventDetails();
