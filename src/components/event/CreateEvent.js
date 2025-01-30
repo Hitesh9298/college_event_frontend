@@ -133,7 +133,7 @@ const CreateEvent = () => {
       formData.append("description", eventData.description);
       formData.append("date", eventData.date);
       formData.append("time", eventData.time);
-      formData.append("venue", eventData.location); // Changed from location to venue
+      formData.append("venue", eventData.venue); // Changed from location to venue
       formData.append("category", eventData.category);
       formData.append("maxParticipants", eventData.maxParticipants);
       formData.append("organizerName", eventData.organizerName);
