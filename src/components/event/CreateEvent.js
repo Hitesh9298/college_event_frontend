@@ -106,6 +106,9 @@ useEffect(() => {
           body: formData,
         }
       );
+
+const result = await response.json();
+      console.log(result);  // Check for errors or success message
   
       if (!response.ok) {
         throw new Error("Failed to upload image");
