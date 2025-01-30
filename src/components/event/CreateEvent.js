@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { createEvent } from '../../services/api';
+import { createEvent } from '../services/api';
 import {
   Container,
   Paper,
@@ -159,11 +159,7 @@ const CreateEvent = () => {
       // Send form data
     
        // Send form data
-    const response = await api.post('/events', formData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+       const response = await createEvent(formData);
 
       
       console.log("Event created successfully:", response);
