@@ -96,8 +96,7 @@ export const getEvents = async (filters = {}) => {
 // ✅ **FIXED: Ensure Image URL is sent correctly**
 export const createEvent = async (formData) => {
   try {
-    // Debugging logs
-    console.log("Sending event data:", formData);
+    console.log("Sending event data:", Object.fromEntries(formData));
 
     const response = await api.post("/events", formData, {
       headers: {

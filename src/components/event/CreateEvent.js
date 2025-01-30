@@ -117,48 +117,37 @@ const CreateEvent = () => {
     }
   };
   
+  const handleSubmit = async (event) => {
+    event.preventDefault();
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
     try {
-      let imageUrl = null;
-  
-      if (eventData.image) {
-        imageUrl = await uploadImage(eventData.image);
-      }
-  
-      console.log("Final Image URL before sending:", imageUrl); // Debugging log
-  
+      // Ensure all fields are correctly populated
       const formData = new FormData();
-      
-      Object.keys(eventData).forEach((key) => {
-        if (key === "schedule") {
-          formData.append("schedule", JSON.stringify(eventData.schedule));
-        } else if (key !== "image") {
-          formData.append(key, eventData[key]);
-        }
-      });
+      formData.append("title", eventDetails.title);
+      formData.append("description", eventDetails.description);
+      formData.append("date", eventDetails.date);
+      formData.append("time", eventDetails.time);  // ✅ Added missing time field
+      formData.append("location", eventDetails.location);
+      formData.append("category", eventDetails.category);  // ✅ Ensure category is included
+      formData.append("organizerName", eventDetails.organizerName);
+      formData.append("organizerDescription", eventDetails.organizerDescription);
+      formData.append("maxParticipants", eventDetails.maxParticipants);  // ✅ Ensure maxParticipants is included
+      formData.append("image", uploadedImageUrl);  // ✅ Ensure image is added
   
-      if (imageUrl) {
-        formData.append("image", imageUrl);  // Ensure image URL is added
-      }
+      // Convert schedule array into JSON string before sending
+      formData.append("schedule", JSON.stringify(eventDetails.schedule));  // ✅ Ensure schedule is included
   
-      console.log("Form Data before sending:", formData.get("image")); // Debugging log
+      console.log("Final FormData before sending:", Object.fromEntries(formData));
   
-      await createEvent(formData);
-      setSnackbarMessage("Event created successfully!");
-      setOpenSnackbar(true);
-  
-      setTimeout(() => {
-        navigate("/events");
-      }, 2000);
+      // Send form data
+      const response = await createEvent(formData);
+      console.log("Event created successfully:", response);
     } catch (error) {
-      console.error("Error in handleSubmit:", error);
-      setSnackbarMessage(error.response?.data?.message || "Failed to create event. Please try again.");
-      setOpenSnackbar(true);
+      console.error("Error creating event:", error);
     }
   };
   
+
   
   return (
     <Container maxWidth="md">
