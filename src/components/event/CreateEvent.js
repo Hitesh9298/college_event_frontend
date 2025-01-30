@@ -27,7 +27,7 @@ const CreateEvent = () => {
     description: '',
     date: '',
     time: '',
-    location: '',
+    venue: '',
     category: '',
     image: null,
     maxParticipants: '',
@@ -225,9 +225,9 @@ const CreateEvent = () => {
               <TextField
                 fullWidth
                 label="Location"
-                name="location"
+                name="venue"
                 required
-                value={eventData.location}
+                value={eventData.venue}
                 onChange={handleChange}
               />
             </Grid>
