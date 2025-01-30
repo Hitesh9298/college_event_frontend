@@ -39,6 +39,7 @@ const CreateEvent = () => {
   const [openSnackbar, setOpenSnackbar] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState('');
   const [imagePreview, setImagePreview] = useState(null);
+  const [snackbarSeverity, setSnackbarSeverity] = useState('success');
 
   const handleChange = (e) => {
     const { name, value } = e.target;
