@@ -87,9 +87,9 @@ export const getEvents = async (filters = {}) => {
 export const createEvent = async (formData) => {
   try {
     // Debug log
-    formData.forEach((value, key) => {
+    for (let [key, value] of formData.entries()) {
       console.log(`${key}:`, value);
-    });
+    }
 
     const response = await api.post('/events', formData, {
       headers: {
@@ -98,8 +98,11 @@ export const createEvent = async (formData) => {
     });
     return response.data;
   } catch (error) {
-    console.error('Error creating event:', error);
-    throw error;
+    console.error('Error creating event:', error.response?.data);
+    throw error.response?.data || {
+      message: 'Failed to create event',
+      errors: [{ msg: 'Network error or server unavailable' }]
+    };
   }
 };
 

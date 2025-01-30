@@ -118,53 +118,49 @@ const CreateEvent = () => {
     }
   };
   
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
       let imageUrl = null;
-
+  
       if (eventData.image) {
         imageUrl = await uploadImage(eventData.image);
       }
-
+  
+      // Create FormData with proper field names matching backend
       const formData = new FormData();
-      formData.append("title", eventData.title);
-      formData.append("description", eventData.description);
+      formData.append("title", eventData.title.trim());
+      formData.append("description", eventData.description.trim());
       formData.append("date", eventData.date);
       formData.append("time", eventData.time);
-      formData.append("venue", eventData.location); // Note the field name change
+      formData.append("location", eventData.location.trim()); // Changed from location to venue
       formData.append("category", eventData.category);
       formData.append("maxParticipants", eventData.maxParticipants || "100");
-      formData.append("organizerName", eventData.organizerName);
-      formData.append("organizerDescription", eventData.organizerDescription);
+      formData.append("organizerName", eventData.organizerName.trim());
+      formData.append("organizerDescription", eventData.organizerDescription.trim());
       
       if (imageUrl) {
         formData.append("image", imageUrl);
       }
-// Filter out empty schedule items
-const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
-formData.append("schedule", JSON.stringify(validSchedule));
-
-const response = await createEvent(formData);
-
-setSnackbarMessage("Event created successfully!");
-setSnackbarSeverity('success');
-setOpenSnackbar(true);
-
-setTimeout(() => {
-  navigate("/events");
-}, 2000);
-} catch (error) {
-  console.error("Error creating event:", error);
-  setSnackbarMessage(error.message || "Failed to create event. Please try again.");
-  setSnackbarSeverity('error');
-  setOpenSnackbar(true);
-}
-};
-   
-     
-    
+  
+      // Filter and validate schedule before sending
+      const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
+      formData.append("schedule", JSON.stringify(validSchedule));
+  
+      const response = await createEvent(formData);
+      setSnackbarMessage("Event created successfully!");
+      setOpenSnackbar(true);
+      setTimeout(() => navigate("/events"), 2000);
+    } catch (error) {
+      console.error("Error creating event:", error);
+      // Handle validation errors
+      const errorMessage = error.errors ? 
+        error.errors.map(err => err.msg).join(', ') : 
+        error.message || "Failed to create event. Please try again.";
+      setSnackbarMessage(errorMessage);
+      setOpenSnackbar(true);
+    }
+  };
   
   return (
     <Container maxWidth="md">
