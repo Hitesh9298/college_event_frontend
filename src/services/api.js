@@ -92,15 +92,11 @@ export const getEvents = async (filters = {}) => {
 // ✅ FIXED `createEvent` function (No JSON.stringify for FormData)
 export const createEvent = async (formData) => {
   try {
-    const response = await api.post('/events', formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data', // Axios auto-sets this
-      },
-    });
+    const response = await api.post('/events', formData);
     return response.data;
   } catch (error) {
     console.error('Error creating event:', error.response?.data || error.message);
-    throw error;
+    throw error.response?.data || error;
   }
 };
 

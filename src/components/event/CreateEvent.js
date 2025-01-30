@@ -117,68 +117,52 @@ const CreateEvent = () => {
     }
   };
   
+  
   const handleSubmit = async (event) => {
     event.preventDefault();
   
     try {
-      let imageUrl= null;
+      let imageUrl = null;
   
-      // Upload image if an image is selected
       if (eventData.image) {
         imageUrl = await uploadImage(eventData.image);
       }
   
-      // Ensure all fields are correctly populated
       const formData = new FormData();
-      formData.append("title", eventData.title || "");
-      formData.append("description", eventData.description || "");
-      formData.append("date", eventData.date || "");
-      formData.append("time", eventData.time || "");
-      formData.append("location", eventData.location || "");
-      formData.append("category", eventData.category || "");
-      formData.append("organizerName", eventData.organizerName || "");
-      formData.append("organizerDescription", eventData.organizerDescription || "");
+      formData.append("title", eventData.title);
+      formData.append("description", eventData.description);
+      formData.append("date", eventData.date);
+      formData.append("time", eventData.time);
+      formData.append("venue", eventData.location); // Changed from location to venue
+      formData.append("category", eventData.category);
+      formData.append("maxParticipants", eventData.maxParticipants || "100");
+      formData.append("organizerName", eventData.organizerName);
+      formData.append("organizerDescription", eventData.organizerDescription);
       
-      // Ensure maxParticipants is a valid number, defaulting to 0 if not provided
-      formData.append("maxParticipants", eventData.maxParticipants ? String(eventData.maxParticipants) : "0");
-      // Append image URL if uploaded
       if (imageUrl) {
         formData.append("image", imageUrl);
       }
   
-      // Convert schedule array into JSON string before sending
-      formData.append("schedule", JSON.stringify(eventData.schedule || []));
+      // Ensure schedule is valid JSON before appending
+      const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
+      formData.append("schedule", JSON.stringify(validSchedule));
   
-      console.log("Final FormData before sending:", Object.fromEntries(formData));
-          // Log FormData properly
-    console.log("Final FormData before sending:");
-    formData.forEach((value, key) => {
-      console.log(key, value);
-    })
-  
-      // Send form data
-    
-       // Send form data
-       const response = await createEvent(formData);
-
-      
+      const response = await createEvent(formData);
       console.log("Event created successfully:", response);
-  
-      // Show success message
+      
       setSnackbarMessage("Event created successfully!");
       setOpenSnackbar(true);
-      
-      // Navigate back to event list or another page
       navigate("/events");
     } catch (error) {
       console.error("Error creating event:", error);
-      
-      // Show error message
-      setSnackbarMessage("Failed to create event. Please try again.");
+      const errorMessage = error.response?.data?.message || "Failed to create event. Please try again.";
+      setSnackbarMessage(errorMessage);
       setOpenSnackbar(true);
     }
   };
-
+     
+     
+    
   
   return (
     <Container maxWidth="md">
