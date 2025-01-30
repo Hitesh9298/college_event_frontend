@@ -127,7 +127,7 @@ const CreateEvent = () => {
         imageUrl = await uploadImage(eventData.image);
       }
   
-      // Create FormData with correct field names
+      // Create FormData with correct field names matching backend
       const formData = new FormData();
       formData.append("title", eventData.title);
       formData.append("description", eventData.description);
@@ -139,11 +139,12 @@ const CreateEvent = () => {
       formData.append("organizerName", eventData.organizerName);
       formData.append("organizerDescription", eventData.organizerDescription);
       
+      // Add image URL from Cloudinary
       if (imageUrl) {
         formData.append("image", imageUrl);
       }
   
-      // Filter and validate schedule before sending
+      // Filter out empty schedule items
       const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
       formData.append("schedule", JSON.stringify(validSchedule));
   
@@ -154,6 +155,7 @@ const CreateEvent = () => {
   
       const response = await createEvent(formData);
       setSnackbarMessage("Event created successfully!");
+      setSnackbarSeverity("success");
       setOpenSnackbar(true);
       setTimeout(() => navigate("/events"), 2000);
     } catch (error) {
@@ -162,6 +164,7 @@ const CreateEvent = () => {
         error.errors.map(err => err.msg).join(', ') : 
         error.message || "Failed to create event. Please try again.";
       setSnackbarMessage(errorMessage);
+      setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
   };
