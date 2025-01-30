@@ -94,9 +94,9 @@ export const getEvents = async (filters = {}) => {
 // ... rest of the API functions
 export const createEvent = async (formData) => {
   try {
-    const response = await api.post('/events', formData, {
+    const response = await api.post('/events', JSON.stringify(formData), {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
     return response.data;
