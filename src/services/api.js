@@ -1,3 +1,5 @@
+
+
 import axios from 'axios';
 
 const API_URL = process.env.REACT_APP_API_URL || 'https://clgevent-back.onrender.com/api';
@@ -13,14 +15,6 @@ api.interceptors.request.use((config) => {
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
   }
-
-  // Don't set Content-Type for FormData
-  if (config.data instanceof FormData) {
-    config.headers['Content-Type'] = 'multipart/form-data';
-  } else {
-    config.headers['Content-Type'] = 'application/json';
-  }
-
   return config;
 }, (error) => {
   return Promise.reject(error);
@@ -31,7 +25,7 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('API Error:', error.response?.data || error.message);
-    return Promise.reject(error);
+    return Promise.reject(error.response?.data || error);
   }
 );
 
@@ -92,13 +86,23 @@ export const getEvents = async (filters = {}) => {
 // ✅ FIXED `createEvent` function (No JSON.stringify for FormData)
 export const createEvent = async (formData) => {
   try {
-    const response = await api.post('/events', formData);
+    // Debug log
+    formData.forEach((value, key) => {
+      console.log(`${key}:`, value);
+    });
+
+    const response = await api.post('/events', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return response.data;
   } catch (error) {
-    console.error('Error creating event:', error.response?.data || error.message);
-    throw error.response?.data || error;
+    console.error('Error creating event:', error);
+    throw error;
   }
 };
+
 
 export const deleteEvent = async (eventId) => {
   try {

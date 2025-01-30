@@ -117,23 +117,22 @@ const CreateEvent = () => {
     }
   };
   
-  
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     try {
       let imageUrl = null;
-  
+
       if (eventData.image) {
         imageUrl = await uploadImage(eventData.image);
       }
-  
+
       const formData = new FormData();
       formData.append("title", eventData.title);
       formData.append("description", eventData.description);
       formData.append("date", eventData.date);
       formData.append("time", eventData.time);
-      formData.append("venue", eventData.location); // Changed from location to venue
+      formData.append("venue", eventData.location); // Note the field name change
       formData.append("category", eventData.category);
       formData.append("maxParticipants", eventData.maxParticipants || "100");
       formData.append("organizerName", eventData.organizerName);
@@ -142,25 +141,27 @@ const CreateEvent = () => {
       if (imageUrl) {
         formData.append("image", imageUrl);
       }
-  
-      // Ensure schedule is valid JSON before appending
-      const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
-      formData.append("schedule", JSON.stringify(validSchedule));
-  
-      const response = await createEvent(formData);
-      console.log("Event created successfully:", response);
-      
-      setSnackbarMessage("Event created successfully!");
-      setOpenSnackbar(true);
-      navigate("/events");
-    } catch (error) {
-      console.error("Error creating event:", error);
-      const errorMessage = error.response?.data?.message || "Failed to create event. Please try again.";
-      setSnackbarMessage(errorMessage);
-      setOpenSnackbar(true);
-    }
-  };
-     
+// Filter out empty schedule items
+const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
+formData.append("schedule", JSON.stringify(validSchedule));
+
+const response = await createEvent(formData);
+
+setSnackbarMessage("Event created successfully!");
+setSnackbarSeverity('success');
+setOpenSnackbar(true);
+
+setTimeout(() => {
+  navigate("/events");
+}, 2000);
+} catch (error) {
+  console.error("Error creating event:", error);
+  setSnackbarMessage(error.message || "Failed to create event. Please try again.");
+  setSnackbarSeverity('error');
+  setOpenSnackbar(true);
+}
+};
+   
      
     
   
