@@ -99,7 +99,7 @@ useEffect(() => {
   
     try {
       const response = await fetch(
-        "https://api.cloudinary.com/v1_1/YOUR_CLOUDINARY_NAME/image/upload", 
+        "https://api.cloudinary.com/v1_1/dqgedj6q4/image/upload", 
         { 
           method: "POST",
           body: formData,
