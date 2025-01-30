@@ -17,9 +17,11 @@ import BookmarkIcon from '@mui/icons-material/Bookmark';
 import DeleteIcon from '@mui/icons-material/Delete';
 
 const EventCard = ({ event, onSave, onView, isSaved = false, showRegisterButton = true, isCreator = false, onDelete }) => {
-  const imageUrl = event.image?.startsWith('http') 
-  ? event.image 
-:`https://res.cloudinary.com/dqgedj6q4/image/upload/${event.image}`
+  const imageUrl = event?.image
+  ? event.image.startsWith('http')
+    ? event.image
+    : `https://res.cloudinary.com/dqgedj6q4/image/upload/${event.image}`
+  : 'https://via.placeholder.com/1200x400';  // Fallback image
 
   return (
     <Card sx={{ 

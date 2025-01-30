@@ -121,32 +121,54 @@ const CreateEvent = () => {
     event.preventDefault();
   
     try {
+      let imageUrl= null;
+  
+      // Upload image if an image is selected
+      if (eventData.image) {
+        imageUrl = await uploadImage(eventData.image);
+      }
+  
       // Ensure all fields are correctly populated
       const formData = new FormData();
-      formData.append("title", eventDetails.title);
-      formData.append("description", eventDetails.description);
-      formData.append("date", eventDetails.date);
-      formData.append("time", eventDetails.time);  // ✅ Added missing time field
-      formData.append("location", eventDetails.location);
-      formData.append("category", eventDetails.category);  // ✅ Ensure category is included
-      formData.append("organizerName", eventDetails.organizerName);
-      formData.append("organizerDescription", eventDetails.organizerDescription);
-      formData.append("maxParticipants", eventDetails.maxParticipants);  // ✅ Ensure maxParticipants is included
-      formData.append("image", uploadedImageUrl);  // ✅ Ensure image is added
+      formData.append("title", eventData.title);
+      formData.append("description", eventData.description);
+      formData.append("date", eventData.date);
+      formData.append("time", eventData.time);
+      formData.append("location", eventData.location);
+      formData.append("category", eventData.category);
+      formData.append("organizerName", eventData.organizerName);
+      formData.append("organizerDescription", eventData.organizerDescription);
+      formData.append("maxParticipants", eventData.maxParticipants);
+      
+      // Append image URL if uploaded
+      if (imageUrl) {
+        formData.append("image", imageUrl);
+      }
   
       // Convert schedule array into JSON string before sending
-      formData.append("schedule", JSON.stringify(eventDetails.schedule));  // ✅ Ensure schedule is included
+      formData.append("schedule", JSON.stringify(eventData.schedule));
   
       console.log("Final FormData before sending:", Object.fromEntries(formData));
   
       // Send form data
       const response = await createEvent(formData);
+      
       console.log("Event created successfully:", response);
+  
+      // Show success message
+      setSnackbarMessage("Event created successfully!");
+      setOpenSnackbar(true);
+      
+      // Navigate back to event list or another page
+      navigate("/events");
     } catch (error) {
       console.error("Error creating event:", error);
+      
+      // Show error message
+      setSnackbarMessage("Failed to create event. Please try again.");
+      setOpenSnackbar(true);
     }
   };
-  
 
   
   return (
