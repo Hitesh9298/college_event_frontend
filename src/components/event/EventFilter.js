@@ -67,7 +67,7 @@ const EventFilter = ({ filters, setFilters }) => {
         <Grid item xs={12} md={4}>
           <TextField
             fullWidth
-            label="Location"
+            label="venue"
             value={filters.location}
             onChange={(e) => setFilters(prev => ({...prev, location: e.target.value}))}
           />

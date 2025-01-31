@@ -56,7 +56,7 @@ const EventCard = ({ event, onSave, onView, isSaved = false, showRegisterButton 
         </Box>
         <Box sx={{ display: 'flex', alignItems: 'center' }}>
           <LocationOn sx={{ fontSize: 'small', mr: 1 }} />
-          <Typography variant="body2">{event.location}</Typography>
+          <Typography variant="body2">{event.venue}</Typography>
         </Box>
       </CardContent>
       <CardActions sx={{ justifyContent: 'space-between', p: 2 }}>
