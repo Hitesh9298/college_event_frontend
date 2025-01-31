@@ -48,7 +48,7 @@ export const updateUserProfile = async (userData) => {
         formData.append(key, userData[key]);
       }
     });
-
+    
     const response = await api.put('/auth/profile', formData);
     return response.data;
   } catch (error) {
@@ -58,14 +58,10 @@ export const updateUserProfile = async (userData) => {
 };
 
 export const changePassword = async (passwordData) => {
-  try {
-    const response = await api.put('/user/password', passwordData);
-    return response.data;
-  } catch (error) {
-    console.error('Error changing password:', error);
-    throw error;
-  }
+  const response = await api.put('/user/password', passwordData);
+  return response.data;
 };
+
 
 export const getEvents = async (filters = {}) => {
   try {
@@ -78,10 +74,10 @@ export const getEvents = async (filters = {}) => {
     const response = await api.get(`/events?${queryParams.toString()}`);
     return response.data;
   } catch (error) {
-    console.error('Error fetching events:', error);
     throw error;
   }
 };
+
 
 // ✅ FIXED `createEvent` function (No JSON.stringify for FormData)
 export const createEvent = async (eventData) => {
