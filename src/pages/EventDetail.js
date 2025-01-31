@@ -268,7 +268,7 @@ const EventDetail = () => {
 								</Box>
 								<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
 									<LocationOn sx={{ mr: 2 }} />
-									<Typography>{event.location}</Typography>
+									<Typography>{event.venue}</Typography>
 								</Box>
 								<Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
 									<Group sx={{ mr: 2 }} />

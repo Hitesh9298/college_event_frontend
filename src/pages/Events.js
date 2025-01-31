@@ -23,7 +23,7 @@ function Events() {
   const [filters, setFilters] = useState({
     category: '',
     date: '',
-    location: ''
+    venue: ''
   });
   const [snackbar, setSnackbar] = useState({
     open: false,

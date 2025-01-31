@@ -221,7 +221,7 @@ const CreateEvent = () => {
             <Grid item xs={12}>
               <TextField
                 fullWidth
-                label="venue"
+                label="Venue"
                 name="venue"
                 required
                 value={eventData.venue}
