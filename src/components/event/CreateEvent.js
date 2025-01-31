@@ -22,6 +22,11 @@ import AddIcon from '@mui/icons-material/Add';
 
 const CreateEvent = () => {
   const navigate = useNavigate();
+  const [isAuthorized, setIsAuthorized] = useState(false);
+  useEffect(() => {
+    const userEmail = localStorage.getItem('userEmail'); // Assuming email is stored in localStorage
+    setIsAuthorized(userEmail === 'Admin@gmail.com');
+  }, []);
   const [eventData, setEventData] = useState({
     title: '',
     description: '',
@@ -120,6 +125,14 @@ const CreateEvent = () => {
   
   const handleSubmit = async (e) => {
     e.preventDefault();
+    // Check if user is authorized
+    const userEmail = localStorage.getItem('userEmail');
+    if (userEmail !== 'Admin@gmail.com') {
+      setSnackbarMessage("Access Denied: Only admin or organizer can create events");
+      setSnackbarSeverity("error");
+      setOpenSnackbar(true);
+      return;
+    }
     try {
       let imageUrl = null;
   

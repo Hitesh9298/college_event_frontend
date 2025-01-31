@@ -50,6 +50,7 @@ const Login = () => {
         localStorage.setItem('userId', data.user._id);
         localStorage.setItem('token', data.token);
         localStorage.setItem('username', data.user.username);
+        localStorage.setItem('userEmail', data.user.email); // Add this line for event creation
         localStorage.setItem('user', JSON.stringify(data.user));
         
         // Force a page reload to update the navbar
