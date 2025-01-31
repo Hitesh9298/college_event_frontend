@@ -26,7 +26,16 @@ const CreateEvent = () => {
   useEffect(() => {
     const userEmail = localStorage.getItem('userEmail'); // Assuming email is stored in localStorage
     setIsAuthorized(userEmail === 'Admin@gmail.com');
+
+ // Optionally show message if not authorized
+ if (!isAuthorized) {
+  setSnackbarMessage("Note: Only admin can create events. You can view the form but cannot submit.");
+  setSnackbarSeverity("info");
+  setOpenSnackbar(true);
+}
+
   }, []);
+  
   const [eventData, setEventData] = useState({
     title: '',
     description: '',
