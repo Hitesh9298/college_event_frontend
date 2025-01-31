@@ -139,7 +139,7 @@ const CreateEvent = () => {
         organizerName: eventData.organizerName,
         organizerDescription: eventData.organizerDescription,
         image: imageUrl, // Cloudinary URL
-        schedule: eventData.schedule.filter(item => item.time && item.activity), // Filter valid schedule
+        schedule: JSON.stringify(eventData.schedule.filter(item => item.time && item.activity)), // ✅ Fix: Convert array to JSON string
       };
   
       console.log("Submitting event:", newEvent); // Debug log
@@ -161,6 +161,8 @@ const CreateEvent = () => {
       setOpenSnackbar(true);
     }
   };
+  
+    
   
   
   return (
