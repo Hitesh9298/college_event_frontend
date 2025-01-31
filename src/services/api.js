@@ -84,30 +84,29 @@ export const getEvents = async (filters = {}) => {
 };
 
 // ✅ FIXED `createEvent` function (No JSON.stringify for FormData)
-export const createEvent = async (formData) => {
+export const createEvent = async (eventData) => {
   try {
-    // Debug log
-    for (let [key, value] of formData.entries()) {
-      console.log(`${key}:`, value);
-    }
+    console.log("Sending event data:", eventData);
 
-    const response = await api.post('/events', formData, {
+    const response = await api.post('/events', eventData, {
       headers: {
-        'Content-Type': 'multipart/form-data',
+        'Content-Type': 'application/json',
       },
     });
+
     return response.data;
   } catch (error) {
-    console.error('Error creating event:', error.response?.data);
+    console.error("Error creating event:", error.response?.data);
     if (error.response?.data) {
       throw error.response.data;
     }
     throw {
-      message: 'Network error or server unavailable',
-      errors: [{ msg: 'Could not connect to server' }]
+      message: "Network error or server unavailable",
+      errors: [{ msg: "Could not connect to server" }],
     };
   }
 };
+
 
 
 export const deleteEvent = async (eventId) => {

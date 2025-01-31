@@ -124,50 +124,45 @@ const CreateEvent = () => {
       let imageUrl = null;
   
       if (eventData.image) {
-        imageUrl = await uploadImage(eventData.image);
+        imageUrl = await uploadImage(eventData.image); // Uploads to Cloudinary
       }
   
-      // Create FormData with correct field names matching backend
-      const formData = new FormData();
-      formData.append("title", eventData.title);
-      formData.append("description", eventData.description);
-      formData.append("date", eventData.date);
-      formData.append("time", eventData.time);
-      formData.append("venue", eventData.venue); // Changed from location to venue
-      formData.append("category", eventData.category);
-      formData.append("maxParticipants", eventData.maxParticipants);
-      formData.append("organizerName", eventData.organizerName);
-      formData.append("organizerDescription", eventData.organizerDescription);
-      
-      // Add image URL from Cloudinary
-      if (imageUrl) {
-        formData.append("image", imageUrl);
-      }
+      // Create JSON object (instead of FormData)
+      const newEvent = {
+        title: eventData.title,
+        description: eventData.description,
+        date: eventData.date,
+        time: eventData.time,
+        venue: eventData.venue, // Changed from location to venue
+        category: eventData.category,
+        maxParticipants: parseInt(eventData.maxParticipants) || 100,
+        organizerName: eventData.organizerName,
+        organizerDescription: eventData.organizerDescription,
+        image: imageUrl, // Cloudinary URL
+        schedule: eventData.schedule.filter(item => item.time && item.activity), // Filter valid schedule
+      };
   
-      // Filter out empty schedule items
-      const validSchedule = eventData.schedule.filter(item => item.time && item.activity);
-      formData.append("schedule", JSON.stringify(validSchedule));
+      console.log("Submitting event:", newEvent); // Debug log
   
-      // Debug log
-      for (let [key, value] of formData.entries()) {
-        console.log(`${key}: ${value}`);
-      }
+      const response = await createEvent(newEvent);
   
-      const response = await createEvent(formData);
       setSnackbarMessage("Event created successfully!");
       setSnackbarSeverity("success");
       setOpenSnackbar(true);
       setTimeout(() => navigate("/events"), 2000);
     } catch (error) {
       console.error("Error creating event:", error);
-      const errorMessage = error.errors ? 
-        error.errors.map(err => err.msg).join(', ') : 
-        error.message || "Failed to create event. Please try again.";
+      const errorMessage = error.errors
+        ? error.errors.map(err => err.msg).join(", ")
+        : error.message || "Failed to create event. Please try again.";
+  
       setSnackbarMessage(errorMessage);
       setSnackbarSeverity("error");
       setOpenSnackbar(true);
     }
   };
+  
+  
   return (
     <Container maxWidth="md">
       <Paper elevation={3} sx={{ p: 4, mt: 4 }}>
