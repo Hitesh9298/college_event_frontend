@@ -113,20 +113,32 @@ const Login = () => {
               order: { xs: 2, md: 1 },
               pl: { md: 4, lg: 8 } // Added left padding on medium and large screens
             }}>
-              <Box sx={{ 
+                <Box sx={{ 
                 width: '100%',
-                maxWidth: '700px', // Increased max width
-                animation: 'float 3s ease-in-out infinite',
-                p: 2
-              }}>
+                maxWidth: '700px',
+                animation: 'float 6s ease-in-out infinite', // Increased duration from 3s to 6s
+                p: 2,
+                '@keyframes float': {
+                  '0%': {
+                  transform: 'translateY(0px) scale(1)',
+                  },
+                  '50%': {
+                  transform: 'translateY(-20px) scale(1.05)', // Added scale transform and increased Y translation
+                  },
+                  '100%': {
+                  transform: 'translateY(0px) scale(1)',
+                  }
+                }
+                }}>
                 <img 
                   src={loginImage} 
                   alt="Login" 
                   style={{ 
-                    width: '100%',
-                    height: 'auto',
-                    maxHeight: '600px', // Increased max height
-                    objectFit: 'contain'
+                  width: '100%',
+                  height: 'auto',
+                  maxHeight: '600px',
+                  objectFit: 'contain',
+                  transition: 'all 0.3s ease-in-out' // Added smooth transition
                   }} 
                 />
               </Box>

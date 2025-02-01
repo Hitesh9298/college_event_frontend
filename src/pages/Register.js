@@ -113,19 +113,31 @@ const Register = () => {
           }}>
             <Box sx={{ 
               width: '100%',
-              maxWidth: '650px',  // Adjusted image container
-              animation: 'float 3s ease-in-out infinite',
+              maxWidth: '650px',
+              animation: 'float 6s ease-in-out infinite',
+              '@keyframes float': {
+              '0%': {
+                transform: 'translateY(0px) scale(1)',
+              },
+              '50%': {
+                transform: 'translateY(-20px) scale(1.05)',
+              },
+              '100%': {
+                transform: 'translateY(0px) scale(1)',
+              }
+              },
               p: 2
             }}>
               <img 
-                src={registerImage} 
-                alt="Register" 
-                style={{ 
-                  width: '100%',
-                  height: 'auto',
-                  maxHeight: '550px',  // Adjusted height
-                  objectFit: 'contain'
-                }} 
+              src={registerImage} 
+              alt="Register" 
+              style={{ 
+                width: '100%',
+                height: 'auto',
+                maxHeight: '550px',
+                objectFit: 'contain',
+                transition: 'all 0.3s ease-in-out'
+              }} 
               />
             </Box>
           </Grid>
