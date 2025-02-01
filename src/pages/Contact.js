@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Footer from '../components/Footer';
 import {
 	Container,
 	Paper,
@@ -66,11 +67,14 @@ const Contact = () => {
 	return (
 		<Box sx={{
 			minHeight: '100vh',
-			background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
-			py: 8
+            background: 'linear-gradient(135deg,rgb(180, 162, 224) 0%,rgb(153, 241, 220) 100%)',
+			display: 'flex',
+			flexDirection: 'column',
+			position: 'relative'
 		}}>
-			  <Container maxWidth="lg">
-				<Grid container spacing={6} sx={{ display: 'flex', alignItems: 'stretch' }}>
+			<Box sx={{ py: 12 }}>
+				<Container maxWidth="lg" sx={{ mb: 8 }}>
+					<Grid container spacing={6} sx={{ display: 'flex', alignItems: 'stretch' }}>
 				  {/* Contact Information */}
 				  <Grid item xs={12} md={6}>
 					<Paper elevation={3} sx={{
@@ -292,47 +296,23 @@ const Contact = () => {
 							  </Grid>
 							</Grid>
 						  </Container>
-                                {/* Copyright Section */}
-              <Box
-                sx={{
-                  mt: 8,
-                  py: 3,
-                  textAlign: 'center',
-                  borderTop: '1px solid rgba(0, 0, 0, 0.1)',
-                  background: 'rgba(255, 255, 255, 0.7)',
-                }}
-              >
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: '#666',
-                    fontSize: '0.9rem',
-                    fontFamily: "'Roboto', sans-serif"
-                  }}
-                >
-                  Copyright © {new Date().getFullYear()} College Events.
-                  <br />
-                  All Rights Reserved.
-                  <br />
-                  Version 1.0
-                </Typography>
-              </Box>
+						</Box>
+                        <Footer />
+						<Snackbar
+						  open={openSnackbar}
+						  autoHideDuration={6000}
+						  onClose={() => setOpenSnackbar(false)}
+						>
+						  <Alert 
+							onClose={() => setOpenSnackbar(false)} 
+							severity={snackbarSeverity}
+							sx={{ width: '100%' }}
+						  >
+							{snackbarMessage}
+						  </Alert>
+						</Snackbar>
+					  </Box>
+					);
+				};
 
-              <Snackbar
-                     open={openSnackbar}
-                     autoHideDuration={6000}
-                     onClose={() => setOpenSnackbar(false)}
-                      >
-                       <Alert 
-                   onClose={() => setOpenSnackbar(false)} 
-                 severity={snackbarSeverity}
-                 sx={{ width: '100%' }}
-                  >
-            {snackbarMessage}
-        </Alert>
-    </Snackbar>
-	</Box>
-	);
-	};
-
-	export default Contact;
+				export default Contact;

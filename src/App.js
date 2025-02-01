@@ -16,6 +16,7 @@ import Chat from './pages/Chat';
 import './App.css';
 import Contact from './pages/Contact';
 import About from './pages/About';
+import Footer from './components/Footer';
 
 const theme = createTheme({
   palette: {
