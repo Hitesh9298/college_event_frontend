@@ -3,6 +3,7 @@ import { Container, Typography, Box, Grid, CircularProgress, Alert } from '@mui/
 import { useNavigate } from 'react-router-dom';
 import { getSavedEvents, saveEvent } from '../services/api';
 import EventCard from '../components/event/EventCard';
+import Footer from '../components/Footer';
 
 const SavedEvents = () => {
   const [savedEvents, setSavedEvents] = useState([]);
@@ -48,6 +49,14 @@ const SavedEvents = () => {
   }
 
   return (
+    <Box sx={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative'
+    }}>
+    <Box sx={{ flex: '1 0 auto', py: 4 }}>
     <Container maxWidth="md">
       <Box sx={{ mt: 4 }}>
         <Typography variant="h4" gutterBottom>
@@ -74,7 +83,12 @@ const SavedEvents = () => {
           </Grid>
         )}
       </Box>
+      
     </Container>
+    </Box>
+      
+      <Footer />
+    </Box>
   );
 };
 

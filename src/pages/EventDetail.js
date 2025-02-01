@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 import {
 	Container,
 	Paper,
@@ -125,6 +126,15 @@ const EventDetail = () => {
 	}
 
 	return (
+//new updateed code
+		<Box sx={{
+            minHeight: '100vh',
+            background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+            display: 'flex',
+            flexDirection: 'column',
+            position: 'relative'
+        }}>
+         <Box sx={{ flex: '1 0 auto', py: 4 }}>
 		<Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
 			<Paper elevation={3} sx={{ overflow: 'hidden' }}>
 				<Box sx={{ position: 'relative' }}>
@@ -288,6 +298,10 @@ const EventDetail = () => {
 					</Grid>
 				</Box>
 			</Paper>
+			</Container>
+            </Box>
+
+            <Footer />
 
 			<Snackbar
 				open={snackbar.open}
@@ -301,7 +315,7 @@ const EventDetail = () => {
 					{snackbar.message}
 				</Alert>
 			</Snackbar>
-		</Container>
+			</Box>
 	);
 };
 

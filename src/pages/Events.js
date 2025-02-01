@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Footer from '../components/Footer';
 import { 
   Container, 
   Grid, 
@@ -10,6 +11,7 @@ import {
   Snackbar,
   Alert
 } from '@mui/material';
+import Footer from '../components/Footer';
 import AddIcon from '@mui/icons-material/Add';
 import { getEvents, saveEvent, registerForEvent, deleteEvent } from '../services/api';
 import { isAuthenticated, getCurrentUserId } from '../services/auth';
@@ -152,6 +154,14 @@ function Events() {
   };
 
   return (
+    <Box sx={{
+      minHeight: '100vh',
+      background: 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+      display: 'flex',
+      flexDirection: 'column',
+      position: 'relative'
+    }}>
+      <Box sx={{ flex: '1 0 auto', py: 4 }}>
     <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
       <Box sx={{ display: 'flex', justifyContent: 'space-between', mb: 4 }}>
         <Typography variant="h4" component="h1">
@@ -207,7 +217,10 @@ function Events() {
           )}
         </Grid>
       )}
+    </Container>
+      </Box>
 
+      <Footer />
       <Snackbar
         open={snackbar.open}
         autoHideDuration={6000}
@@ -222,7 +235,7 @@ function Events() {
           {snackbar.message}
         </Alert>
       </Snackbar>
-    </Container>
+      </Box>
   );
 }
 
