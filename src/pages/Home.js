@@ -239,7 +239,7 @@ const Home = () => {
             }}
           >
             <MuiLink 
-              href="#" 
+              href="/about" 
               color="inherit" 
               underline="hover" 
               sx={{ 
@@ -252,7 +252,7 @@ const Home = () => {
               About
             </MuiLink>
             <MuiLink 
-              href="#" 
+              href="/contact" 
               color="inherit" 
               underline="hover" 
               sx={{ 

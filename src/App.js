@@ -14,6 +14,8 @@ import EventDetails from './pages/EventDetail';
 import SavedEvents from './pages/SavedEvents'; 
 import Chat from './pages/Chat';
 import './App.css';
+import Contact from './pages/Contact';
+import About from './pages/About';
 
 const theme = createTheme({
   palette: {
@@ -153,6 +155,9 @@ function App() {
                 </PrivateRoute>
               } 
             />
+             <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<About />} />
+            
           </Routes>
         </Router>
       </ThemeProvider>

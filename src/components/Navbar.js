@@ -25,7 +25,9 @@ import {
   ExitToApp as LogoutIcon,
   Home as HomeIcon,
   Chat as ChatIcon,
-  Bookmark as BookmarkIcon
+  Bookmark as BookmarkIcon,
+  ContactMail as ContactMailIcon  // Add this import
+
 } from '@mui/icons-material';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { isAuthenticated, logout } from '../services/auth';
@@ -76,6 +78,7 @@ const Navbar = () => {
     { label: 'Events', path: '/events', icon: <EventIcon /> },
     { label: 'Saved Events', path: '/saved-events', icon: <BookmarkIcon /> },
     { label: 'Chat', path: '/chat', icon: <ChatIcon /> },
+    { label: 'Contact', path: '/contact', icon: <ContactMailIcon /> },  // Add this line
   ] : [];
 
   const renderMobileDrawer = (
@@ -112,6 +115,21 @@ const Navbar = () => {
             <ListItemText primary={item.label} />
           </ListItem>
         ))}
+          {isLoggedIn && (
+                <ListItem 
+                    button
+                    onClick={handleLogout}
+                    sx={{
+                        color: '#333',
+                        '&:hover': {
+                            backgroundColor: 'rgba(142, 68, 173, 0.04)',
+                        },
+                    }}
+                >
+                    <Box sx={{ mr: 2, color: '#8e44ad' }}><LogoutIcon /></Box>
+                    <ListItemText primary="Logout" />
+                </ListItem>
+            )}
       </List>
     </Box>
   );
