@@ -16,6 +16,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import PhoneIcon from '@mui/icons-material/Phone';
 import PersonIcon from '@mui/icons-material/Person';
+import LinkedInIcon from '@mui/icons-material/LinkedIn';
 
 const Contact = () => {
 	const [formData, setFormData] = useState({
@@ -102,34 +103,55 @@ const Contact = () => {
 							  </Typography>
 							  
 							  <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
-								<PersonIcon sx={{ mr: 3, color: '#3498DB', fontSize: 45 }} />
+								<PersonIcon sx={{ mr: 3, color: '#3498DB', fontSize: 65 }} />
 								<Box>
-								  <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Name</Typography>
-								  <Typography variant="h6" sx={{ color: '#666', fontSize: '1.3rem' }}>Hitesh Parmar</Typography>
+								  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Name</Typography>
+								  <Typography variant="h5" sx={{ color: '#666', fontSize: '1.5rem' }}>Hitesh Parmar</Typography>
 								</Box>
 							  </Box>
 
 							  <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
-								<LocationOnIcon sx={{ mr: 3, color: '#3498DB', fontSize: 45 }} />
+								<LocationOnIcon sx={{ mr: 3, color: '#3498DB', fontSize: 65 }} />
 								<Box>
-								  <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Our Location</Typography>
-								  <Typography variant="h6" sx={{ color: '#666', fontSize: '1.3rem' }}>Indore, Madhya Pradesh</Typography>
+								  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Our Location</Typography>
+								  <Typography variant="h5" sx={{ color: '#666', fontSize: '1.5rem' }}>Indore, Madhya Pradesh</Typography>
 								</Box>
 							  </Box>
 
 							  <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
-								<EmailIcon sx={{ mr: 3, color: '#3498DB', fontSize: 45 }} />
+								<EmailIcon sx={{ mr: 3, color: '#3498DB', fontSize: 65 }} />
 								<Box>
-								  <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Email Us</Typography>
-								  <Typography variant="h6" sx={{ color: '#666', fontSize: '1.3rem' }}>hitesh@gmail.com</Typography>
+								  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Email Us</Typography>
+								  <Typography variant="h5" sx={{ color: '#666', fontSize: '1.5rem' }}>hitesh@gmail.com</Typography>
 								</Box>
 							  </Box>
+
+                              <Box sx={{ mb: 5, display: 'flex', alignItems: 'center' }}>
+<LinkedInIcon sx={{ mr: 3, color: '#3498DB', fontSize: 65 }} />
+                                <Box>
+                                  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>LinkedIn</Typography>
+                                  <Typography 
+                                    variant="h5" 
+                                    sx={{ 
+                                      color: '#666', 
+                                      fontSize: '1.5rem',
+                                      '&:hover': {
+                                        color: '#3498DB',
+                                        cursor: 'pointer'
+                                      }
+                                    }}
+                                    onClick={() => window.open('https://www.linkedin.com/in/hitesh9298/', '_blank')}
+                                  >
+                                    hitesh9298
+                                  </Typography>
+                                </Box>
+                              </Box>
 
 							  <Box sx={{ display: 'flex', alignItems: 'center' }}>
-								<PhoneIcon sx={{ mr: 3, color: '#3498DB', fontSize: 45 }} />
+								<PhoneIcon sx={{ mr: 3, color: '#3498DB', fontSize: 65 }} />
 								<Box>
-								  <Typography variant="h5" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Call Us</Typography>
-								  <Typography variant="h6" sx={{ color: '#666', fontSize: '1.3rem' }}>+91 9179982958</Typography>
+								  <Typography variant="h4" sx={{ fontWeight: 'bold', color: '#2C3E50', mb: 1 }}>Call Us</Typography>
+								  <Typography variant="h5" sx={{ color: '#666', fontSize: '1.5rem' }}>+91 9179982958</Typography>
 								</Box>
 							  </Box>
 						</Paper>
