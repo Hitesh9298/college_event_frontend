@@ -39,7 +39,7 @@ const Contact = () => {
 			e.preventDefault();
 			setIsLoading(true);
 			try {
-				const response = await fetch('http://localhost:4000/api/contact', {
+				const response = await fetch('https://clgevent-back.onrender.com/api/contact', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',
@@ -292,9 +292,33 @@ const Contact = () => {
 							  </Grid>
 							</Grid>
 						  </Container>
-						  
-						  // Update the Snackbar component
-                       <Snackbar
+                                {/* Copyright Section */}
+              <Box
+                sx={{
+                  mt: 8,
+                  py: 3,
+                  textAlign: 'center',
+                  borderTop: '1px solid rgba(0, 0, 0, 0.1)',
+                  background: 'rgba(255, 255, 255, 0.7)',
+                }}
+              >
+                <Typography
+                  variant="body2"
+                  sx={{
+                    color: '#666',
+                    fontSize: '0.9rem',
+                    fontFamily: "'Roboto', sans-serif"
+                  }}
+                >
+                  Copyright © {new Date().getFullYear()} College Events.
+                  <br />
+                  All Rights Reserved.
+                  <br />
+                  Version 1.0
+                </Typography>
+              </Box>
+
+              <Snackbar
                      open={openSnackbar}
                      autoHideDuration={6000}
                      onClose={() => setOpenSnackbar(false)}
@@ -307,8 +331,8 @@ const Contact = () => {
             {snackbarMessage}
         </Alert>
     </Snackbar>
-						</Box>
-					  );
-					};
+	</Box>
+	);
+	};
 
-					export default Contact;
+	export default Contact;
